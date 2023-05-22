@@ -1,9 +1,7 @@
-import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -17,17 +15,14 @@ export default function App() {
   useEffect(() => {
     var array = [];
 
-    for (let i = 1; i <= 150; i++) {
+    for (let i = 1; i <= 25; i++) {
       axios.get(`https://pokeapi.co/api/v2/pokemon/${i}`).then((response) => {
         array.push(response.data);
-        setState(array);
+        const sortedPokemons = array.sort((a, b) => a.id - b.id);
+        setState(sortedPokemons);
       });
     }
   }, []);
-
-  const redirectToDetails = (id) => {
-    // navigate("agentDetails " + id, { state: { id: id } });
-  };
 
   if (state.length > 0) {
     console.log(state);
@@ -37,31 +32,53 @@ export default function App() {
   function teste() {
     return (
       <>
-        {state.map(({ id, name, url, sprites }) => (
-          <Card sx={{ width: "25%" }}>
-            <img
-              className="pokemon-img"
-              src={
-                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
-                sprites.other.home.front_default
-                  .split("sprites/pokemon/")[1]
-                  .slice(0, -4) +
-                ".png"
-              }
-              id={id}
-            />
-            <CardContent>
-              <Typography variant="h5" component="div">
-                {name}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button onClick={redirectToDetails(url)} href={url} size="small">
-                See more...
-              </Button>
-            </CardActions>
-          </Card>
-        ))}
+        <div className="main-div col-sm-12">
+          {state.map(({ id, name, url, sprites, types }) => (
+            <Card sx={{ width: "25%" }}>
+              <img
+                className="pokemon-img"
+                src={
+                  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
+                  sprites.other.home.front_default
+                    .split("sprites/pokemon/")[1]
+                    .slice(0, -4) +
+                  ".png"
+                }
+                id={id}
+              />
+              <CardContent>
+                <Typography variant="h5" component="div">
+                  {name}
+                </Typography>
+                <div className="pokemon-types">
+                  {types.map(({ type }) => (
+                    <Typography
+                      className={type.name}
+                      sx={{
+                        fontSize: "12px",
+                        display: "flex",
+                        width: "70px",
+                        height: "20px",
+                        alignItems: "center",
+                        borderRadius: "5px",
+                        margin: "0 auto",
+                      }}
+                      variant="h5"
+                      component="div"
+                    >
+                      {type.name}
+                    </Typography>
+                  ))}
+                </div>
+              </CardContent>
+              <CardActions>
+                <Button href={"/pokemon/" + id} size="small">
+                  See more...
+                </Button>
+              </CardActions>
+            </Card>
+          ))}
+        </div>
       </>
     );
   }

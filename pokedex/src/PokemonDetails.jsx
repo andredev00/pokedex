@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function CherryDetails() {
-  return <div>Hello Cheery Details</div>;
+  return <div>Hello Pokemon Details</div>;
 }
