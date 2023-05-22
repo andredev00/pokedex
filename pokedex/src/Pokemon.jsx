@@ -9,7 +9,6 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-// import { useNavigate } from "react-router-dom";
 import "./main.css";
 
 export default function App() {
@@ -47,7 +46,6 @@ export default function App() {
                 sprites.other.home.front_default
                   .split("sprites/pokemon/")[1]
                   .slice(0, -4) +
-                // (index + 1).toString().slice(-1) +
                 ".png"
               }
               id={id}
