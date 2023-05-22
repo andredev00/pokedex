@@ -9,30 +9,37 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+// import { useNavigate } from "react-router-dom";
+import "./main.css";
 
 export default function App() {
   const [state, setState] = useState([]);
 
-  const bull = (
-    <Box
-      component="span"
-      sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-    >
-      •
-    </Box>
-  );
-
   useEffect(() => {
-    axios.get("https://pokeapi.co/api/v2/berry/").then((response) => {
-      console.log(response.data.results);
+    axios.get("https://pokeapi.co/api/v2/pokemon/").then((response) => {
       setState(response.data.results);
     });
   }, []);
 
+  console.log(state);
+
+  const redirectToDetails = (id) => {
+    // navigate("agentDetails " + id, { state: { id: id } });
+  };
+
   return (
     <>
-      {state.map(({ name, url }) => (
+      {state.map(({ name, url }, index) => (
         <Card sx={{ width: "20%" }}>
+          <img
+            className="pokemon-img"
+            src={
+              "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
+              (index + 1).toString().slice(-1) +
+              ".png"
+            }
+            id={index}
+          />
           <CardContent>
             {/* <Typography
               sx={{ fontSize: 14 }}
@@ -46,7 +53,7 @@ export default function App() {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button href={url} size="small">
+            <Button onClick={redirectToDetails(url)} href={url} size="small">
               See more...
             </Button>
           </CardActions>
@@ -55,26 +62,3 @@ export default function App() {
     </>
   );
 }
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;

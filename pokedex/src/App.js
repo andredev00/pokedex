@@ -1,6 +1,7 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import React from "react";
 import CherryDetails from "./CherryDetails.jsx";
+import Cherry from "./Cherry.jsx";
 
 function App() {
   // const [locale, setLocale] = useState(i18n.language);
@@ -10,7 +11,8 @@ function App() {
       {/* <Suspense fallback={<Loading />}> */}
       <BrowserRouter>
         <Routes>
-          <Route path="/cherry/agentDetails:id" element={<CherryDetails />} />
+          <Route path="/" element={<Cherry />} />
+          <Route path="/cherry/:id" element={<CherryDetails />} />
         </Routes>
       </BrowserRouter>
       {/* </Suspense> */}
