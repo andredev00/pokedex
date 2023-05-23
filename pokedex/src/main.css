@@ -2,6 +2,8 @@
     background-color: black;
     border-radius: 10px;
     width: 100%;
+    height: auto;
+    max-width: 200px; 
 }
 
 .bug{
@@ -84,4 +86,16 @@
 
 .main-div{
     display:grid;
+}
+
+.custom-col{
+    margin-bottom: 5%;
+}
+
+.custom-row{
+    margin-top:5% !important;
+}
+
+.pokemon-name{
+    margin-bottom: 10% !important;
 }

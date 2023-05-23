@@ -8,6 +8,8 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import "./main.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Col, Container, Row } from "react-bootstrap";
 
 export default function App() {
   const [state, setState] = useState([]);
@@ -32,53 +34,62 @@ export default function App() {
   function teste() {
     return (
       <>
-        <div className="main-div col-sm-12">
-          {state.map(({ id, name, url, sprites, types }) => (
-            <Card sx={{ width: "25%" }}>
-              <img
-                className="pokemon-img"
-                src={
-                  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
-                  sprites.other.home.front_default
-                    .split("sprites/pokemon/")[1]
-                    .slice(0, -4) +
-                  ".png"
-                }
-                id={id}
-              />
-              <CardContent>
-                <Typography variant="h5" component="div">
-                  {name}
-                </Typography>
-                <div className="pokemon-types">
-                  {types.map(({ type }) => (
+        <Container>
+          <Row className="custom-row">
+            {state.map(({ id, name, url, sprites, types }) => (
+              <Col className="custom-col" sm={6} md={4} lg={4} key={id}>
+                <Card className="mx-auto" sx={{ width: "48%" }}>
+                  <img
+                    className="pokemon-img"
+                    src={
+                      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
+                      sprites.other.home.front_default
+                        .split("sprites/pokemon/")[1]
+                        .slice(0, -4) +
+                      ".png"
+                    }
+                    id={id}
+                  />
+                  <CardContent>
                     <Typography
-                      className={type.name}
-                      sx={{
-                        fontSize: "12px",
-                        display: "flex",
-                        width: "70px",
-                        height: "20px",
-                        alignItems: "center",
-                        borderRadius: "5px",
-                        margin: "0 auto",
-                      }}
+                      className="pokemon-name"
                       variant="h5"
                       component="div"
                     >
-                      {type.name}
+                      {name}
                     </Typography>
-                  ))}
-                </div>
-              </CardContent>
-              <CardActions>
-                <Button href={"/pokemon/" + id} size="small">
-                  See more...
-                </Button>
-              </CardActions>
-            </Card>
-          ))}
-        </div>
+                    <div className="pokemon-types text-center">
+                      {types.map(({ type }) => (
+                        <Typography
+                          className={type.name}
+                          sx={{
+                            fontSize: "12px",
+                            display: "flex",
+                            width: "70px",
+                            height: "20px",
+                            alignItems: "center",
+                            borderRadius: "5px",
+                            margin: "0 auto",
+                            justifyContent: "center",
+                          }}
+                          variant="h5"
+                          component="div"
+                        >
+                          {type.name}
+                        </Typography>
+                      ))}
+                    </div>
+                  </CardContent>
+                  <CardActions>
+                    <Button href={"/pokemon/" + id} size="small">
+                      See more...
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
       </>
     );
   }
