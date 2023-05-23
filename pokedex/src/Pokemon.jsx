@@ -17,7 +17,7 @@ export default function App() {
   useEffect(() => {
     var array = [];
 
-    for (let i = 1; i <= 25; i++) {
+    for (let i = 1; i <= 15; i++) {
       axios.get(`https://pokeapi.co/api/v2/pokemon/${i}`).then((response) => {
         array.push(response.data);
         const sortedPokemons = array.sort((a, b) => a.id - b.id);
@@ -27,6 +27,7 @@ export default function App() {
   }, []);
 
   if (pokemonList.length > 0) {
+    console.log(pokemonList);
     return renderPokemonCards();
   }
 
@@ -35,7 +36,7 @@ export default function App() {
       <>
         <Container>
           <Row className="custom-row">
-            {pokemonList.map(({ id, name, url, sprites, types }) => (
+            {pokemonList.map(({ id, name, sprites, types }) => (
               <Col className="custom-col" sm={6} md={4} lg={4} key={id}>
                 <Card className="mx-auto" sx={{ width: "48%" }}>
                   <img
