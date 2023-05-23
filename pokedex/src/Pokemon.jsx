@@ -12,7 +12,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Col, Container, Row } from "react-bootstrap";
 
 export default function App() {
-  const [state, setState] = useState([]);
+  const [pokemonList, setPokemonList] = useState([]);
 
   useEffect(() => {
     var array = [];
@@ -21,22 +21,21 @@ export default function App() {
       axios.get(`https://pokeapi.co/api/v2/pokemon/${i}`).then((response) => {
         array.push(response.data);
         const sortedPokemons = array.sort((a, b) => a.id - b.id);
-        setState(sortedPokemons);
+        setPokemonList(sortedPokemons);
       });
     }
   }, []);
 
-  if (state.length > 0) {
-    console.log(state);
-    return teste();
+  if (pokemonList.length > 0) {
+    return renderPokemonCards();
   }
 
-  function teste() {
+  function renderPokemonCards() {
     return (
       <>
         <Container>
           <Row className="custom-row">
-            {state.map(({ id, name, url, sprites, types }) => (
+            {pokemonList.map(({ id, name, url, sprites, types }) => (
               <Col className="custom-col" sm={6} md={4} lg={4} key={id}>
                 <Card className="mx-auto" sx={{ width: "48%" }}>
                   <img
