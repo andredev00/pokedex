@@ -13,18 +13,37 @@ import { Col, Container, Row } from "react-bootstrap";
 
 export default function App() {
   const [pokemonList, setPokemonList] = useState([]);
+  const [filteredPokemonList, setFilteredPokemonList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    var array = [];
+    axios
+      .get("https://pokeapi.co/api/v2/pokemon?limit=150")
+      .then((response) => {
+        const pokemons = response.data.results;
+        const fetchData = async () => {
+          const promises = pokemons.map((pokemon) =>
+            axios.get(pokemon.url).then((response) => response.data)
+          );
 
-    for (let i = 1; i <= 15; i++) {
-      axios.get(`https://pokeapi.co/api/v2/pokemon/${i}`).then((response) => {
-        array.push(response.data);
-        const sortedPokemons = array.sort((a, b) => a.id - b.id);
-        setPokemonList(sortedPokemons);
+          console.log(promises);
+
+          const resolvedPokemons = await Promise.all(promises);
+          const sortedPokemons = resolvedPokemons.sort((a, b) => a.id - b.id);
+
+          setPokemonList(sortedPokemons);
+        };
+
+        fetchData();
       });
-    }
   }, []);
+
+  useEffect(() => {
+    const filteredList = pokemonList.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredPokemonList(filteredList);
+  }, [searchTerm, pokemonList]);
 
   if (pokemonList.length > 0) {
     console.log(pokemonList);
@@ -35,8 +54,14 @@ export default function App() {
     return (
       <>
         <Container>
+          <input
+            type="text"
+            placeholder="Search by name"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <Row className="custom-row">
-            {pokemonList.map(({ id, name, sprites, types }) => (
+            {filteredPokemonList.map(({ id, name, sprites, types }) => (
               <Col className="custom-col" sm={6} md={4} lg={4} key={id}>
                 <Card className="mx-auto" sx={{ width: "48%" }}>
                   <img
