@@ -99,3 +99,13 @@
 .pokemon-name{
     margin-bottom: 10% !important;
 }
+
+.custom-container{
+    margin-top:20px;
+}
+
+.custom-input-name{
+    border-radius:20px;
+    height:35px;
+    width: 250px;
+}

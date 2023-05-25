@@ -53,8 +53,9 @@ export default function App() {
   function renderPokemonCards() {
     return (
       <>
-        <Container>
+        <Container className={"custom-container"}>
           <input
+            className="custom-input-name"
             type="text"
             placeholder="Search by name"
             value={searchTerm}
